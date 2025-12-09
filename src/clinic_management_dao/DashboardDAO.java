@@ -34,6 +34,9 @@ public class DashboardDAO {
     }
 
     public int getCompletedAppointments() {
+        // Using LOWER() for case-insensitive matching and multi-language support
+        // Note: For better performance in production, consider creating a functional index:
+        // CREATE INDEX idx_status_lower ON appointments(LOWER(status));
         String sql = "SELECT COUNT(*) FROM appointments WHERE LOWER(status) IN ('completed', 'complete', 'hoàn thành', 'đã hoàn thành')";
         try (PreparedStatement pst = conn.prepareStatement(sql);
              ResultSet rs = pst.executeQuery()) {
@@ -47,6 +50,9 @@ public class DashboardDAO {
     }
 
     public int getCancelledAppointments() {
+        // Using LOWER() for case-insensitive matching and multi-language support
+        // Note: For better performance in production, consider creating a functional index:
+        // CREATE INDEX idx_status_lower ON appointments(LOWER(status));
         String sql = "SELECT COUNT(*) FROM appointments WHERE LOWER(status) IN ('cancelled', 'canceled', 'hủy', 'đã hủy', 'bị hủy')";
         try (PreparedStatement pst = conn.prepareStatement(sql);
              ResultSet rs = pst.executeQuery()) {
@@ -69,6 +75,4 @@ public class DashboardDAO {
         }
         return 0;
     }
-    
-
 }
