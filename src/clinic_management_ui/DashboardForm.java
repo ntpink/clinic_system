@@ -47,6 +47,10 @@ public class DashboardForm extends JFrame {
 
     private void loadStatistics() {
         DashboardDAO dao = new DashboardDAO();
+        
+        // Debug: Print all distinct status values from database
+        dao.printDistinctStatusValues();
+        
         Dashboard dashboard = dao.getDashboardStatistics();
 
         lblTotalAppointments.setText("Tổng số lượt khám: " + dashboard.getTotalAppointments());
