@@ -1,0 +1,47 @@
+package clinic_management_ui;
+
+import clinic_management_dao.DashboardDAO;
+import clinic_management_dao.Dashboard;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class DashboardForm extends JFrame {
+    private JLabel lblTotalAppointments;
+    private JLabel lblRevenue;
+
+    public DashboardForm(JFrame parent) {
+        setTitle("Dashboard Báo Cáo");
+        setSize(520, 200); 
+        setLocationRelativeTo(null);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 1, 20, 20)); 
+        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
+        lblTotalAppointments = new JLabel("Tổng số lượt khám: ...", SwingConstants.CENTER);
+        lblTotalAppointments.setFont(new Font("Arial", Font.BOLD, 20));
+        panel.add(lblTotalAppointments);
+
+        lblRevenue = new JLabel("Tổng doanh thu: ... VNĐ", SwingConstants.CENTER);
+        lblRevenue.setFont(new Font("Arial", Font.BOLD, 20));
+        panel.add(lblRevenue);
+
+        add(panel);
+
+        loadStatistics();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
+    private void loadStatistics() {
+        DashboardDAO dao = new DashboardDAO();
+        Dashboard dashboard = dao.getDashboardStatistics();
+
+        lblTotalAppointments.setText("Tổng số lượt khám: " + dashboard.getTotalAppointments());
+        lblRevenue.setText("Tổng doanh thu: " + String.format("%.0f VNĐ", dashboard.getTotalRevenue()));
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new DashboardForm(null).setVisible(true));
+    }
+}
